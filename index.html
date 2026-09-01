@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบลงทะเบียนโปรแกรมเมอร์ - Developer Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Decorative Floating Pastel Bubbles -->
+    <div class="pastel-bubble bubble-1"></div>
+    <div class="pastel-bubble bubble-2"></div>
+    <div class="pastel-bubble bubble-3"></div>
+
+    <div class="container">
+        <!-- Student Info Header Banner -->
+        <header class="student-badge-container">
+            <div class="student-badge">
+                <div class="badge-avatar">👨‍💻</div>
+                <div class="badge-content">
+                    <span class="badge-label">ข้อมูลผู้พัฒนา (Developer Info)</span>
+                    <span class="badge-value" id="studentDisplay">รหัสนักศึกษา 66040233102 : นายทวีชัย นามฮาด สาขา IT</span>
+                </div>
+                <button class="edit-badge-btn" id="editStudentBtn" title="คลิกเพื่อแก้ไขข้อมูล">✏️ แก้ไข</button>
+            </div>
+        </header>
+
+        <!-- Main Form Card -->
+        <main class="form-wrapper">
+            <div class="form-header">
+                <div class="brand-tag">✨ DEV ONBOARDING FORM ✨</div>
+                <h1>แบบฟอร์มลงทะเบียนโปรแกรมเมอร์</h1>
+                <p class="subtitle">Programmer Registration & Skill Assessment Portal</p>
+            </div>
+
+            <form id="regForm" novalidate>
+                <!-- Section 1: ข้อมูลส่วนตัว -->
+                <div class="form-section-title">
+                    <span class="section-icon">🌸</span>
+                    <span>01. ข้อมูลส่วนตัว (Personal Details)</span>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Full Name -->
+                    <div class="form-group full-width">
+                        <label for="fullName">ชื่อ - นามสกุล (Full Name) <span class="required">*</span></label>
+                        <input type="text" id="fullName" name="fullName" placeholder="เช่น นายทวีชัย นามฮาด" autocomplete="off">
+                        <span class="error-text" id="fullNameError"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">อีเมล (Email Address) <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="example@email.com" autocomplete="off">
+                        <span class="error-text" id="emailError"></span>
+                    </div>
+
+                    <!-- Contact Number (BUG 1) -->
+                    <div class="form-group">
+                        <label for="phone">เบอร์โทรศัพท์ (Contact Number) <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="เช่น 0812345678" maxlength="10" autocomplete="off">
+                        <span class="error-text" id="phoneError"></span>
+                    </div>
+
+                    <!-- Date of Birth -->
+                    <div class="form-group">
+                        <label for="dob">วันเดือนปีเกิด (Date of Birth) <span class="required">*</span></label>
+                        <input type="date" id="dob" name="dob">
+                        <span class="error-text" id="dobError"></span>
+                    </div>
+
+                    <!-- Experience Level -->
+                    <div class="form-group">
+                        <label for="experience">ระดับประสบการณ์ (Experience Level) <span class="required">*</span></label>
+                        <select id="experience" name="experience">
+                            <option value="">🌱 กรุณาเลือกระดับประสบการณ์</option>
+                            <option value="none">ยังไม่มีประสบการณ์ (Newbie / No Experience)</option>
+                            <option value="junior">ระดับเริ่มต้น (Junior 0 - 1 ปี)</option>
+                            <option value="middle">ระดับกลาง (Middle 1 - 3 ปี)</option>
+                            <option value="senior">ระดับชำนาญ (Senior 3 ปีขึ้นไป)</option>
+                        </select>
+                        <span class="error-text" id="experienceError"></span>
+                    </div>
+                </div>
+
+                <!-- Section 2: ตำแหน่งและความเชี่ยวชาญ -->
+                <div class="form-section-title">
+                    <span class="section-icon">💻</span>
+                    <span>02. ตำแหน่งงานและความต้องการ (Role & Preferences)</span>
+                </div>
+
+                <div class="form-grid">
+                    <!-- Preferred Role -->
+                    <div class="form-group">
+                        <label for="role">ตำแหน่งที่สนใจ (Preferred Role) <span class="required">*</span></label>
+                        <select id="role" name="role">
+                            <option value="">🎯 เลือกตำแหน่งงาน</option>
+                            <option value="frontend">Frontend Developer (React / Vue / HTML)</option>
+                            <option value="backend">Backend Developer (Node / Go / Python / PHP)</option>
+                            <option value="fullstack">Full Stack Developer</option>
+                            <option value="mobile">Mobile Application Developer</option>
+                            <option value="qa_tester">QA / Software Tester</option>
+                            <option value="devops">DevOps & Cloud Engineer</option>
+                        </select>
+                        <span class="error-text" id="roleError"></span>
+                    </div>
+
+                    <!-- Desired Salary -->
+                    <div class="form-group">
+                        <label for="salary">เงินเดือนที่คาดหวัง / เดือน (THB) <span class="required">*</span></label>
+                        <input type="number" id="salary" name="salary" placeholder="เช่น 30000" min="0" step="1000">
+                        <span class="error-text" id="salaryError"></span>
+                    </div>
+
+                    <!-- Workplace Preference -->
+                    <div class="form-group full-width">
+                        <label>รูปแบบการทำงานที่ต้องการ (Workplace Mode) <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-card">
+                                <input type="radio" name="workplace" value="remote" checked>
+                                <span class="radio-custom"></span>
+                                <span>🏠 Remote 100% (ทำงานที่บ้าน)</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="workplace" value="hybrid">
+                                <span class="radio-custom"></span>
+                                <span>🏢 Hybrid (เข้าออฟฟิศบางวัน)</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="workplace" value="onsite">
+                                <span class="radio-custom"></span>
+                                <span>🏙️ On-site (เข้าออฟฟิศประจำ)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Preferred Contact Method -->
+                    <div class="form-group full-width">
+                        <label>ช่องทางการติดต่อที่สะดวกที่สุด (Contact Method) <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-card">
+                                <input type="radio" name="contactMethod" value="email" checked>
+                                <span class="radio-custom"></span>
+                                <span>📧 อีเมล (Email)</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="contactMethod" value="phone">
+                                <span class="radio-custom"></span>
+                                <span>📞 เบอร์โทรศัพท์ (Phone)</span>
+                            </label>
+                            <label class="radio-card">
+                                <input type="radio" name="contactMethod" value="line">
+                                <span class="radio-custom"></span>
+                                <span>💬 LINE ID</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: เอกสารและเงื่อนไข -->
+                <div class="form-section-title">
+                    <span class="section-icon">📂</span>
+                    <span>03. เอกสารแนบและเงื่อนไข (Attachments & Terms)</span>
+                </div>
+
+                <div class="form-grid">
+                    <!-- File Upload -->
+                    <div class="form-group full-width">
+                        <label for="resumeFile">อัปโหลด Resume / Portfolio / บัตรประชาชน (PDF, JPG, PNG) <span class="required">*</span></label>
+                        <div class="file-dropzone" id="dropzone">
+                            <input type="file" id="resumeFile" name="resumeFile" accept=".pdf,.jpg,.jpeg,.png">
+                            <div class="dropzone-content">
+                                <div class="upload-icon">☁️</div>
+                                <p class="dropzone-text" id="fileNameDisplay">คลิกเพื่อเลือกไฟล์ หรือลากไฟล์มาวางที่นี่</p>
+                                <span class="dropzone-sub">รองรับไฟล์ PDF, JPG, PNG (ขนาดไม่เกิน 10MB)</span>
+                            </div>
+                        </div>
+                        <span class="error-text" id="resumeFileError"></span>
+                    </div>
+
+                    <!-- Additional Comments -->
+                    <div class="form-group full-width">
+                        <label for="comments">ข้อความเพิ่มเติม / แนะนำตนเองสั้นๆ (Additional Comments)</label>
+                        <textarea id="comments" name="comments" rows="3" placeholder="ระบุทักษะเด่น ลิงก์ผลงาน GitHub หรือข้อความเพิ่มเติม..."></textarea>
+                    </div>
+
+                    <!-- Terms & Conditions (BUG 2) -->
+                    <div class="form-group full-width checkbox-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="terms" name="terms">
+                            <span class="checkbox-custom"></span>
+                            <span>ฉันยอมรับ <a href="#" class="link-highlight" onclick="event.preventDefault(); alert('📌 นโยบายความเป็นส่วนตัว: ข้อมูลจะถูกเก็บรักษาอย่างปลอดภัยเพื่อใช้ในการประเมินผลเท่านั้น');">ข้อกำหนดและเงื่อนไขการสมัคร</a> รวมถึงนโยบายคุ้มครองข้อมูล <span class="required">*</span></span>
+                        </label>
+                        <span class="error-text" id="termsError"></span>
+                    </div>
+                </div>
+
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="reset" class="btn btn-secondary" id="resetBtn">🔄 ล้างข้อมูล</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span>✨ ส่งใบสมัครลงทะเบียน</span>
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <!-- Collapsible Bug Spoiler Accordion (เฉลยบัคท้ายเว็บ พับเปิด-ปิดได้) -->
+        <section class="bug-accordion-section">
+            <details class="bug-accordion">
+                <summary class="bug-summary">
+                    <div class="summary-left">
+                        <span class="accordion-badge">🔍 สำหรับอาจารย์ / Tester</span>
+                        <span class="accordion-title">คลิกที่นี่เพื่อเปิดดู "เฉลยจุดบัค 2 ตำแหน่ง" (Bug Spoilers)</span>
+                    </div>
+                    <span class="accordion-arrow">▼</span>
+                </summary>
+                <div class="accordion-body">
+                    <div class="bug-card">
+                        <div class="bug-header">
+                            <span class="bug-tag tag-orange">🐛 จุดบัคที่ 1</span>
+                            <h4>ฟิลด์เบอร์โทรศัพท์ (Contact Number)</h4>
+                        </div>
+                        <p class="bug-desc">
+                            <strong>ตำแหน่งโค้ด:</strong> <code>script.js</code> ในฟังก์ชัน <code>validatePhone()</code><br>
+                            <strong>พฤติกรรมผิดพลาด:</strong> เบอร์โทรศัพท์มาตรฐานไทยต้องมี <strong>10 หลัก</strong> (เช่น <code>0812345678</code>) แต่ในโค้ดตรวจสอบเงื่อนไขเป็น <strong>9 หลัก</strong> (<code>/^0[0-9]{8}$/</code>)<br>
+                            👉 <em>เมื่อ Tester กรอกเบอร์ 10 หลัก ระบบจะเตือนว่าผิด แต่ถ้ากรอก 9 หลัก ระบบกลับให้ผ่าน</em>
+                        </p>
+                    </div>
+
+                    <div class="bug-card">
+                        <div class="bug-header">
+                            <span class="bug-tag tag-purple">🐛 จุดบัคที่ 2</span>
+                            <h4>ช่องกดยอมรับข้อกำหนด (Terms & Conditions Checkbox)</h4>
+                        </div>
+                        <p class="bug-desc">
+                            <strong>ตำแหน่งโค้ด:</strong> <code>script.js</code> ในฟังก์ชัน <code>validateTerms()</code><br>
+                            <strong>พฤติกรรมผิดพลาด:</strong> ช่องกดยอมรับเงื่อนไขมีดอกจันสีแดง <code>*</code> บังคับเลือก แต่ในโค้ดมีการ Bypass การตรวจสอบไว้ (<code>isBypassValidation = true</code>)<br>
+                            👉 <em>แม้ผู้ใช้ <strong>ไม่ได้ติ๊กเครื่องหมายถูก</strong> เมื่อกดปุ่มส่งใบสมัคร ระบบก็ยังอนุญาตให้ผ่านและบันทึกข้อมูลสำเร็จ</em>
+                        </p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <!-- Footer -->
+        <footer class="page-footer">
+            <p>💖 พัฒนาโดย: <strong>นายทวีชัย นามฮาด (66040233102)</strong> สาขาวิชาเทคโนโลยีสารสนเทศ (IT)</p>
+            <p class="footer-sub">ส่งงานวิชา Software Testing & Web Development | 2569</p>
+        </footer>
+    </div>
+
+    <!-- Modal Success Popup -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-card">
+            <div class="modal-icon">🎉</div>
+            <h2>ลงทะเบียนสำเร็จแล้วนะ!</h2>
+            <p>ระบบได้รับข้อมูลการลงทะเบียนของคุณเรียบร้อยแล้วค่ะ</p>
+            <div class="modal-summary" id="modalSummary"></div>
+            <button class="btn btn-primary btn-block" id="closeModalBtn">ตกลง (เรียบร้อย)</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
