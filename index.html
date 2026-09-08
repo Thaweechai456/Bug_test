@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=2.1">
 </head>
 <body>
     <!-- Decorative Floating Pastel Bubbles -->
@@ -39,10 +39,10 @@
                     </div>
                 </div>
                 <div class="mode-toggle-group">
-                    <button type="button" class="mode-toggle-btn active" id="btnModeFixed">
+                    <button type="button" class="mode-toggle-btn active" id="btnModeFixed" onclick="if(window.switchMode) window.switchMode(false)">
                         <span>✨ โหมดแก้แล้ว (ปกติ)</span>
                     </button>
-                    <button type="button" class="mode-toggle-btn" id="btnModeBug">
+                    <button type="button" class="mode-toggle-btn" id="btnModeBug" onclick="if(window.switchMode) window.switchMode(true)">
                         <span>🐛 โหมดจำลองบัค</span>
                     </button>
                 </div>
@@ -285,6 +285,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=2.1"></script>
 </body>
 </html>

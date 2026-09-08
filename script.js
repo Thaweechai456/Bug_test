@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    window.switchMode = updateModeUI;
+
     if (btnModeFixed && btnModeBug) {
         btnModeFixed.addEventListener('click', () => updateModeUI(false));
         btnModeBug.addEventListener('click', () => updateModeUI(true));
