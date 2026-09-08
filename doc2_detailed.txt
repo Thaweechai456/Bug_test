@@ -1,0 +1,461 @@
+=== PARAGRAPHS FOR Workshop2_DataFlowDetection_completed.docx ===
+P[0]: WorkShop 2 “การไหลของข้อมูล (ตัวแปร) ในโปรแกรม :DATA FLOW DETECTIVE WORKSHOP
+P[1]: 
+P[2]: รูปแบบงาน: งานเดี่ยว (Individual Work)
+P[3]: 
+P[4]: ข้อกำหนด - ให้นักศึกษานำรูปภาพเว็บไซต์ที่พัฒนาขึ้นมาใส่ที่ตารางด้านล่าง
+P[5]: 
+P[6]: 
+P[7]: จาก Source Code  ->  Data Flow  ->  Def-Use Path  ->  Test Case
+P[8]: กระบวนการเรียนรู้: TRY  ->  THINK  ->  DISCOVER  ->  NAME  ->  APPLY
+P[9]: 
+P[10]: ภาพรวมใบงาน
+P[11]: 
+P[12]: MISSION 1 — FIND THE DATA
+P[13]: เป้าหมาย: ค้นหาว่า “ข้อมูลของตัวแปรหนึ่งตัว” เริ่มต้นที่ไหน และถูกนำไปใช้ที่ไหน
+P[14]: STEP 1 เลือกตัวแปรจริง
+P[15]: เลือกตัวแปร 1 ตัวจาก Source Code ของเว็บไซต์/โปรแกรมที่คุณกำลังทดสอบ
+P[16]: ชื่อตัวแปร: phone    ชนิดข้อมูล: String
+P[17]: เหตุผลที่เลือกตัวแปรนี้: 
+P[18]: เลือก phone เพราะเป็นข้อมูลจริงจาก input#phone มี Def จากผู้ใช้ และมี Use ใน validatePhone() ที่ยืนยันได้จากหน้าเว็บ
+P[19]: ตัวแปรนี้เหมาะกับการทดสอบ Data Flow เพราะมี true/false branch ชัดเจนสำหรับค่าความยาว 9 และ 10 หลัก
+P[20]: STEP 2 หา Def และ Use
+P[21]: เปิดไฟล์ Chap6-Structural Test_DFT.pdf ที่หน้า 6–7 เพื่อทำความเข้าใจ Define / Use ก่อน จากนั้นกลับมาที่ Source Code ของตนเอง
+P[22]: 
+P[23]: STEP 3 แยก P-use / C-use
+P[24]: เปิดหน้า 11–12 ของไฟล์ แล้วลองจัดประเภท Use ที่พบใน Source Code ของคุณ
+P[25]: P-use: phone ถูกใช้ในเงื่อนไข regex ของ validatePhone() เพื่อเลือก true/false branch
+P[26]: C-use: phone ถูกใช้เป็นข้อมูลของฟอร์มเมื่อผ่าน validation และเข้าสู่ขั้นตอนส่งข้อมูล
+P[27]: อ้างอิงตำแหน่งด้วย input#phone และ validatePhone() เพราะหน้าหลักฐานไม่แสดงเลขบรรทัด Source Code
+P[28]: 
+P[29]: MISSION 2 — TRACE THE DATA
+P[30]: เป้าหมาย: เปลี่ยนจากการมอง Source Code เป็นรายบรรทัด  ->  มอง “เส้นทางของข้อมูล”
+P[31]: STEP 1 วาด Data Map อย่างง่าย
+P[32]: ยังไม่ต้องวาด DFG แบบเป็นทางการ ให้เริ่มจากลูกศรแสดงการเดินทางของตัวแปร
+P[33]: วาด Data Map ของตัวแปรที่เลือกลงในพื้นที่ด้านล่าง
+P[34]: ผู้ใช้กรอก phone
+P[35]: -> input#phone กำหนดค่า phone (Def)
+P[36]: -> validatePhone() อ่าน phone (Use)
+P[37]: -> regex /^0[0-9]{8}$/ ตรวจรูปแบบ (P-use)
+P[38]: -> true branch: อนุญาตให้เดินหน้าส่งฟอร์ม
+P[39]: -> false branch: แสดงข้อความ phone error
+P[40]: หลักฐานจาก Bug Spoiler: 9 หลักผ่าน แต่ 10 หลักถูกปฏิเสธ
+P[41]: [แทรก Screenshot ของ Source/ Bug Spoiler ที่นี่]
+P[42]: STEP 2 เรียนรู้ Data Flow Testing
+P[43]: เปิดหน้า 3–4 ของไฟล์ Chap6 เพื่อค้นหาว่า Data Flow Testing สนใจอะไร จากนั้นตอบด้วยภาษาของตนเอง
+P[44]: STEP 3 เรียนรู้ Def-Use Pair และ Def-Clear Path
+P[45]: เปิดหน้า 8 ของไฟล์ แล้วนำแนวคิดมาจับคู่ Def กับ Use ของตัวแปรที่คุณเลือก
+P[46]: 
+P[47]: MISSION 2 — TRACE THE DATA (ต่อ)
+P[48]: STEP 4 ค้นหา “3 ขั้นตอน” ของ Data Flow Testing
+P[49]: เปิดหน้า 13 ของไฟล์ แล้วสรุป 3 ขั้นตอนด้วยคำของคุณเอง
+P[50]: STEP 5 สร้าง Mini Data Flow Graph (DFG)
+P[51]: เปิดหน้า 14–15 เพื่อดูแนวคิด DFG แล้วสร้าง DFG ของตัวแปรของคุณเอง
+P[52]: Mini DFG: D1 input#phone -> U1 validatePhone regex
+P[53]: U1 true -> U2 allow submit
+P[54]: U1 false -> U3 show phone error
+P[55]: D1 ถึง U1 เป็น Def-clear path เพราะไม่มีการกำหนด phone ใหม่ระหว่างทาง
+P[56]: P-use อยู่ที่ U1 เพราะ phone ใช้ในเงื่อนไข regex
+P[57]: Path ที่ต้องทดสอบต้องครอบคลุม true และ false branch
+P[58]: กรณี 9 หลัก: true branch ตามโค้ดปัจจุบัน แต่ไม่ตรง requirement
+P[59]: กรณี 10 หลัก: false branch ตามโค้ดปัจจุบัน แต่ไม่ตรง requirement
+P[60]: กรณีรูปแบบผิด: false branch และแสดง phone error
+P[61]: [แทรก DFG แบบลูกศร/ Screenshot Source Code ที่นี่]
+P[62]: STEP 6 สร้าง Def-Use Paths
+P[63]: เปิดหน้า 16–17 แล้วหาเส้นทางที่เชื่อมจาก Def ไปยัง Use ตามกระแสควบคุมของโปรแกรม
+P[64]: Def-Use Paths สรุปอยู่ในตาราง Path ด้านล่าง โดยใช้ D1 -> U1 -> true/false branch
+P[65]: MISSION 3 — TEST THE PATH
+P[66]: เป้าหมาย: นำ Def-Use Path ที่สร้างได้  ->  เปลี่ยนเป็น Test Case  ->  ทดสอบระบบจริง
+P[67]: STEP 1 Path  ->  Test Data
+P[68]: เปิดหน้า 18–19 ของไฟล์ เพื่อดูการนำ Path ไปสร้าง Test Case
+P[69]: เลือกอย่างน้อย 2 Paths ของคุณ แล้วออกแบบข้อมูลทดสอบ
+P[70]: STEP 2 ลงมือทดสอบระบบจริง
+P[71]: นำ Test Data ไปกรอก/ส่งเข้าเว็บไซต์ของคุณ แล้วบันทึกผลที่เกิดขึ้นจริง
+P[72]: STEP 3 ถ้าพบ FAIL ให้ตรวจสอบว่าเป็น Bug หรือไม่
+P[73]: อย่าเขียนเพียงว่า “Fail = Bug” ให้เปรียบเทียบ Expected Result กับ Actual Result และตรวจสอบหลักฐาน
+P[74]: 
+P[75]: เมื่อพบ Bug — BUG REPORT  ->  RE-TEST
+P[76]: ถ้า Test Case ใด FAIL และมีเหตุผลเพียงพอ ให้ใช้ข้อมูลจากการทดลองเขียน Bug Report
+P[77]: RE-TEST หลังแก้ไข
+P[78]: 
+P[79]: CASE STUDY — ใช้เมื่ออาจารย์สั่ง
+P[80]: เปรียบเทียบกับงานของฉัน
+P[81]: 
+P[82]: REFLECTION — ฉันเข้าใจ Data Flow Testing แล้วหรือยัง?
+P[83]: 1. ก่อนทำกิจกรรมนี้ ฉันคิดว่า Test Case เกิดขึ้นจากอะไร?
+P[84]: ก่อนทำกิจกรรมคิดว่า Test Case มาจาก requirement และสถานการณ์ที่ผู้ใช้อาจพบ
+P[85]: ยังไม่ได้เชื่อมโยง Test Case กับตัวแปรและเส้นทางใน Source Code อย่างชัดเจน
+P[86]: ตอนนี้จึงเห็นความสำคัญของการเริ่มจากข้อมูลในโปรแกรม
+P[87]: 2. หลังทำกิจกรรมนี้ ฉันเห็นความสัมพันธ์ระหว่าง Source Code กับ Test Case อย่างไร?
+P[88]: Source Code บอก Def/Use และ branch ส่วน Test Case เลือก Input เพื่อให้เดินผ่าน Path ที่ต้องการพิสูจน์
+P[89]: phone เป็นตัวอย่างที่ทำให้เห็นความเชื่อมโยงจาก input ไปสู่ regex และผล validation
+P[90]: ดังนั้น Test Case สามารถสร้างจากโครงสร้างของโปรแกรมได้
+P[91]: 3. Def และ Use ช่วยให้ฉันมองหาเส้นทางทดสอบได้อย่างไร?
+P[92]: Def ชี้จุดกำเนิดของค่า และ Use ชี้จุดที่ค่านั้นถูกตัดสินหรือใช้งาน
+P[93]: จึงเลือก Path และ Test Data ให้ครอบคลุม true/false branch ได้
+P[94]: สำหรับ phone จึงต้องทดสอบทั้ง 9 หลัก 10 หลัก และรูปแบบผิด
+P[95]: 4. จุดไหนของกิจกรรมที่ฉันยังไม่เข้าใจ และต้องการให้อาจารย์อธิบายเพิ่ม?
+P[96]: ต้องการให้อาจารย์อธิบายเพิ่มเรื่องการแยก C-use ในโค้ด JavaScript ที่เป็นการส่งข้อมูลมากกว่าการคำนวณ
+P[97]: แต่เข้าใจ P-use ของ regex และ branch จากตัวอย่างนี้แล้ว
+P[98]: จะใช้ตาราง Def/Use ช่วยตรวจคำตอบครั้งต่อไป
+P[99]: 5. ถ้าต้องกลับไปทดสอบเว็บไซต์ของตนเองอีกครั้ง ฉันจะปรับวิธีคิด/วิธีทดสอบอย่างไร?
+P[100]: จะอ่าน Source ก่อน แล้วระบุ Def/Use และ Paths ก่อนออกแบบ Test Case
+P[101]: จะทดสอบค่าขอบเขตและข้อมูลผิดควบคู่กับ happy path
+P[102]: จะเก็บ Screenshot และบันทึก Expected/Actual ทุกกรณี
+P[103]: CHECKLIST ก่อนส่งงาน
+P[104]: [ ] เลือกตัวแปรจริงจาก Source Code    [ ] ระบุ Def และ Use    [ ] แยก P-use / C-use เมื่อพบ    [ ] สร้าง Data Map / Mini DFG    [ ] หา Def-Use Pair และ Path    [ ] สร้าง Test Case จาก Path    [ ] บันทึก Expected / Actual / PASS/FAIL    [ ] แนบ Evidence    [ ] ทำ Bug Report และ Re-test เมื่อพบ Defect
+P[105]: 
+
+=== TABLES FOR Workshop2_DataFlowDetection_completed.docx ===
+
+Table 0 (2x3):
+  Cell[0,0]: รหัสนักศึกษา
+  Cell[0,1]: ชื่อนักศึกษา
+  Cell[0,2]: รูปภาพนักศึกษา
+  Cell[1,0]:   || 66040233102 || 
+  Cell[1,1]:  นายทวีชัย นามฮาด
+  Cell[1,2]: 
+
+Table 1 (1x1):
+  Cell[0,0]: กติกาสำคัญ || 1) ไม่ต้องพยายามจำคำศัพท์ทั้งหมดก่อนลงมือทำ
+2) ใช้ Source Code ของระบบที่ตนเองพัฒนาหรือได้รับมอบหมาย
+3) ทุกข้อที่ตอบควรมีหลักฐานจาก Source Code / การทดลอง / ภาพหน้าจอ
+4) หน้า 20–24 เป็น Case Study ของไฟล์บทเรียน ให้เปิดเมื่ออาจารย์สั่ง เพื่อไม่ให้เห็นคำตอบตัวอย่างล่วงหน้า
+
+Table 2 (1x1):
+  Cell[0,0]:  ||  ||  ||  ||  || 
+
+Table 3 (1x1):
+  Cell[0,0]: ภารกิจของวันนี้ || ให้นักศึกษานำประสบการณ์จากการทำงานในบทบาท Developer และ Tester มาต่อยอดเป็นการทดสอบที่มอง “การไหลของข้อมูลในโปรแกรม” โดยใช้ตัวแปรจริงจาก Source Code ของระบบที่ตนเองพัฒนาขึ้น
+
+Table 4 (5x5):
+  Cell[0,0]: Mission
+  Cell[0,1]: นักศึกษาจะทำอะไร
+  Cell[0,2]: หน้าหลักของไฟล์
+  Cell[0,3]: ผลงานที่ต้องได้
+  Cell[0,4]: ผลงานที่ต้องได้
+  Cell[1,0]: MISSION 1
+FIND THE DATA
+  Cell[1,1]: เลือกตัวแปรจริงจาก Source Code แล้วหา “จุดที่กำหนดค่า” และ “จุดที่นำค่าไปใช้”
+  Cell[1,2]: หน้า 6–7, 11–12
+  Cell[1,3]: Def/Use Table + ทำเครื่องหมายใน Source Code
+  Cell[1,4]: Def/Use Table + ทำเครื่องหมายใน Source Code
+  Cell[2,0]: MISSION 2
+TRACE THE DATA
+  Cell[2,1]: ติดตามการไหลของตัวแปร สร้าง Data Flow อย่างง่าย และหา Def-Use Path
+  Cell[2,2]: หน้า 3–4, 8, 13–17
+  Cell[2,3]: Data Map + Mini DFG + Def-Use Pair + Paths
+  Cell[2,4]: Data Map + Mini DFG + Def-Use Pair + Paths
+  Cell[3,0]: MISSION 3
+TEST THE PATH
+  Cell[3,1]: เปลี่ยน Path ให้เป็น Test Case แล้วนำไปทดสอบระบบจริง
+  Cell[3,2]: หน้า 18–19 และ 20–24 เมื่ออาจารย์สั่ง
+  Cell[3,3]: Test Case + Evidence + PASS/FAIL + Bug Report/Re-test (ถ้ามี)
+  Cell[3,4]: Test Case + Evidence + PASS/FAIL + Bug Report/Re-test (ถ้ามี)
+  Cell[4,0]: จำง่าย || Developer = สร้างระบบ
+Tester = พิสูจน์พฤติกรรมของระบบ
+Data Flow Tester = ติดตามว่า “ข้อมูลถูกกำหนดค่าและถูกนำไปใช้อย่างไร”
+  Cell[4,1]: จำง่าย || Developer = สร้างระบบ
+Tester = พิสูจน์พฤติกรรมของระบบ
+Data Flow Tester = ติดตามว่า “ข้อมูลถูกกำหนดค่าและถูกนำไปใช้อย่างไร”
+  Cell[4,2]: จำง่าย || Developer = สร้างระบบ
+Tester = พิสูจน์พฤติกรรมของระบบ
+Data Flow Tester = ติดตามว่า “ข้อมูลถูกกำหนดค่าและถูกนำไปใช้อย่างไร”
+  Cell[4,3]: จำง่าย || Developer = สร้างระบบ
+Tester = พิสูจน์พฤติกรรมของระบบ
+Data Flow Tester = ติดตามว่า “ข้อมูลถูกกำหนดค่าและถูกนำไปใช้อย่างไร”
+
+Table 5 (6x4):
+  Cell[0,0]: ลำดับ/บรรทัด
+  Cell[0,1]: เกิดอะไรขึ้นกับตัวแปร?
+  Cell[0,2]: ฉันจัดเป็น
+  Cell[0,3]: หลักฐาน/เหตุผล
+  Cell[1,0]: input#phone
+  Cell[1,1]: phone รับค่าที่ผู้ใช้กรอก
+  Cell[1,2]: Def
+  Cell[1,3]: เป็นจุดกำหนดค่าให้ตัวแปร phone
+  Cell[2,0]: validatePhone()
+  Cell[2,1]: อ่านค่า phone เพื่อตรวจ regex
+  Cell[2,2]: Use
+  Cell[2,3]: นำค่าไปใช้ตรวจรูปแบบ
+  Cell[3,0]: validatePhone() true branch
+  Cell[3,1]: ผลตรวจ phone ผ่าน
+  Cell[3,2]: Use
+  Cell[3,3]: ใช้ผลเงื่อนไขให้โปรแกรมเดินต่อ
+  Cell[4,0]: validatePhone() false branch
+  Cell[4,1]: ผลตรวจ phone ไม่ผ่าน
+  Cell[4,2]: Use
+  Cell[4,3]: ใช้ผลเงื่อนไขแสดง phone error
+  Cell[5,0]: ขั้นตอนส่งฟอร์ม
+  Cell[5,1]: ใช้ค่า phone หลัง validation
+  Cell[5,2]: Use
+  Cell[5,3]: เป็นการใช้ค่าในกระบวนการส่งข้อมูลของฟอร์ม
+
+Table 6 (6x5):
+  Cell[0,0]: ตำแหน่ง
+  Cell[0,1]: ตัวแปร
+  Cell[0,2]: P-use หรือ C-use?
+  Cell[0,3]: เหตุผลสั้น ๆ
+  Cell[0,4]: เหตุผลสั้น ๆ
+  Cell[1,0]: validatePhone() regex
+  Cell[1,1]: phone
+  Cell[1,2]: P-use
+  Cell[1,3]: phone อยู่ในเงื่อนไขตรวจรูปแบบ
+  Cell[1,4]: phone อยู่ในเงื่อนไขตรวจรูปแบบ
+  Cell[2,0]: true branch
+  Cell[2,1]: phone
+  Cell[2,2]: P-use
+  Cell[2,3]: ผลการตรวจควบคุมให้ฟอร์มเดินหน้าต่อ
+  Cell[2,4]: ผลการตรวจควบคุมให้ฟอร์มเดินหน้าต่อ
+  Cell[3,0]: false branch
+  Cell[3,1]: phone
+  Cell[3,2]: P-use
+  Cell[3,3]: ผลการตรวจควบคุมการแสดง error
+  Cell[3,4]: ผลการตรวจควบคุมการแสดง error
+  Cell[4,0]: form submit
+  Cell[4,1]: phone
+  Cell[4,2]: C-use
+  Cell[4,3]: ใช้ค่าในข้อมูลสมัครหลัง validation
+  Cell[4,4]: ใช้ค่าในข้อมูลสมัครหลัง validation
+  Cell[5,0]: หยุดคิดก่อนเรียนคำศัพท์ต่อ || ถ้าไม่มีคำว่า Def / Use / P-use / C-use เราจะอธิบายการเดินทางของค่าตัวแปรนี้ด้วยภาษาของเราเองว่าอย่างไร?
+  Cell[5,1]: หยุดคิดก่อนเรียนคำศัพท์ต่อ || ถ้าไม่มีคำว่า Def / Use / P-use / C-use เราจะอธิบายการเดินทางของค่าตัวแปรนี้ด้วยภาษาของเราเองว่าอย่างไร?
+  Cell[5,2]: หยุดคิดก่อนเรียนคำศัพท์ต่อ || ถ้าไม่มีคำว่า Def / Use / P-use / C-use เราจะอธิบายการเดินทางของค่าตัวแปรนี้ด้วยภาษาของเราเองว่าอย่างไร?
+  Cell[5,3]: หยุดคิดก่อนเรียนคำศัพท์ต่อ || ถ้าไม่มีคำว่า Def / Use / P-use / C-use เราจะอธิบายการเดินทางของค่าตัวแปรนี้ด้วยภาษาของเราเองว่าอย่างไร?
+
+Table 7 (1x1):
+  Cell[0,0]: ตัวอย่างรูปแบบการเขียน (ไม่ใช่คำตอบของระบบคุณ) || Def  ->  Use  ->  Use  ->  Use
+เช่น จุดที่กำหนดค่า  ->  จุดที่ตรวจสอบ  ->  จุดที่คำนวณ/แสดงผล
+
+Table 8 (3x2):
+  Cell[0,0]: คำถาม
+  Cell[0,1]: คำตอบของฉัน
+  Cell[1,0]: Data Flow Testing มองอะไรในโปรแกรม?
+  Cell[1,1]: มองว่าค่าของตัวแปรถูกกำหนดที่ไหน ถูกใช้ที่ไหน และเดินผ่านเส้นทางใดก่อนเกิดผลลัพธ์
+  Cell[2,0]: ทำไมการติดตามตัวแปรจึงช่วยในการทดสอบ?
+  Cell[2,1]: ช่วยออกแบบ Test Data จาก Def-Use Path และเห็นจุดที่ข้อมูลถูกตรวจหรือถูกตัดสินผิด
+
+Table 9 (5x4):
+  Cell[0,0]: Def จุดที่
+  Cell[0,1]: Use จุดที่
+  Cell[0,2]: เป็น Def-Use Pair หรือไม่?
+  Cell[0,3]: เหตุผล
+  Cell[1,0]: D1 input#phone
+  Cell[1,1]: U1 validatePhone regex
+  Cell[1,2]: ใช่
+  Cell[1,3]: ไม่มี Def ใหม่ระหว่างทางและใช้ phone ตรวจรูปแบบ
+  Cell[2,0]: D1 input#phone
+  Cell[2,1]: U2 true branch
+  Cell[2,2]: ใช่
+  Cell[2,3]: ค่าที่ตรวจแล้วควบคุมให้โปรแกรมเดินหน้าต่อ
+  Cell[3,0]: D1 input#phone
+  Cell[3,1]: U3 false branch
+  Cell[3,2]: ใช่
+  Cell[3,3]: ค่าที่ตรวจแล้วควบคุมการแสดง error
+  Cell[4,0]: D1 input#phone
+  Cell[4,1]: C-use form submit
+  Cell[4,2]: ใช่
+  Cell[4,3]: ใช้ค่า phone ต่อในข้อมูลฟอร์มหลังผ่าน validation
+
+Table 10 (4x2):
+  Cell[0,0]: ขั้นตอน
+  Cell[0,1]: สิ่งที่ฉันเข้าใจ
+  Cell[1,0]: 1
+  Cell[1,1]: ระบุ Def และ Use ของตัวแปรจาก Source Code
+  Cell[2,0]: 2
+  Cell[2,1]: สร้าง DFG และหาเส้นทาง Def-Use ตาม flow control
+  Cell[3,0]: 3
+  Cell[3,1]: แปลง Paths เป็น Test Cases แล้วตรวจ Expected/Actual
+
+Table 11 (6x4):
+  Cell[0,0]: Path
+  Cell[0,1]: เส้นทางที่ฉันพบ
+  Cell[0,2]: Def  ->  Use ที่เกี่ยวข้อง
+  Cell[0,3]: Def  ->  Use ที่เกี่ยวข้อง
+  Cell[1,0]: Path-1
+  Cell[1,1]: input#phone -> validatePhone -> true -> submit
+  Cell[1,2]: 9 หลัก
+  Cell[1,3]: 9 หลัก
+  Cell[2,0]: Path-2
+  Cell[2,1]: input#phone -> validatePhone -> false -> phone error
+  Cell[2,2]: 10 หลัก
+  Cell[2,3]: 10 หลัก
+  Cell[3,0]: Path-3
+  Cell[3,1]: input#phone -> validatePhone -> false -> phone error
+  Cell[3,2]: ตัวอักษร/รูปแบบผิด
+  Cell[3,3]: ตัวอักษร/รูปแบบผิด
+  Cell[4,0]: Path-4
+  Cell[4,1]: input#phone -> validatePhone -> true -> submit
+  Cell[4,2]: ค่า 9 หลักที่ regex ปัจจุบันรับได้
+  Cell[4,3]: ค่า 9 หลักที่ regex ปัจจุบันรับได้
+  Cell[5,0]: คำเตือน || ไฟล์บทเรียนระบุแนวทางให้ใช้ Path ที่หาได้ไปสร้าง Test Cases ในขั้นต่อไป อย่าเหมารวมว่า “จำนวน Path = จำนวน Test Case” เป็นกฎสากลของการทดสอบทุกประเภท ให้ยึดกระบวนการและตัวอย่างตามบทเรียนนี้เป็นหลัก
+  Cell[5,1]: คำเตือน || ไฟล์บทเรียนระบุแนวทางให้ใช้ Path ที่หาได้ไปสร้าง Test Cases ในขั้นต่อไป อย่าเหมารวมว่า “จำนวน Path = จำนวน Test Case” เป็นกฎสากลของการทดสอบทุกประเภท ให้ยึดกระบวนการและตัวอย่างตามบทเรียนนี้เป็นหลัก
+  Cell[5,2]: คำเตือน || ไฟล์บทเรียนระบุแนวทางให้ใช้ Path ที่หาได้ไปสร้าง Test Cases ในขั้นต่อไป อย่าเหมารวมว่า “จำนวน Path = จำนวน Test Case” เป็นกฎสากลของการทดสอบทุกประเภท ให้ยึดกระบวนการและตัวอย่างตามบทเรียนนี้เป็นหลัก
+
+Table 12 (5x4):
+  Cell[0,0]: Test Case ID
+  Cell[0,1]: Path
+  Cell[0,2]: Test Data / Input
+  Cell[0,3]: Expected Result
+  Cell[1,0]: TC-01
+  Cell[1,1]: Path-1
+  Cell[1,2]: 081234567 (9 หลัก)
+  Cell[1,3]: ควรถูกปฏิเสธและแจ้งว่าเบอร์ต้องมี 10 หลัก
+  Cell[2,0]: TC-02
+  Cell[2,1]: Path-2
+  Cell[2,2]: 0812345678 (10 หลัก)
+  Cell[2,3]: ควรยอมรับเบอร์และไม่แสดง phone error
+  Cell[3,0]: TC-03
+  Cell[3,1]: Path-3
+  Cell[3,2]: 08123ABCD
+  Cell[3,3]: ควรถูกปฏิเสธและแสดง phone error
+  Cell[4,0]: TC-04
+  Cell[4,1]: Path-4
+  Cell[4,2]: 081234567 (9 หลัก)
+  Cell[4,3]: ยืนยันว่าเกณฑ์จริงของระบบปัจจุบันไม่ตรง requirement
+
+Table 13 (5x4):
+  Cell[0,0]: TC ID
+  Cell[0,1]: Actual Result
+  Cell[0,2]: PASS / FAIL
+  Cell[0,3]: Evidence
+  Cell[1,0]: TC-01
+  Cell[1,1]: Bug Spoiler ระบุว่า 9 หลักผ่าน
+  Cell[1,2]: FAIL
+  Cell[1,3]: [แทรก Screenshot Bug Spoiler/ผลการทดสอบ]
+  Cell[2,0]: TC-02
+  Cell[2,1]: Bug Spoiler ระบุว่า 10 หลักถูกเตือนว่าผิด
+  Cell[2,2]: FAIL
+  Cell[2,3]: [แทรก Screenshot phone error]
+  Cell[3,0]: TC-03
+  Cell[3,1]: ต้องทดสอบและแนบ Screenshot เพิ่ม
+  Cell[3,2]: รอยืนยัน
+  Cell[3,3]: [แทรก Screenshot หลังทดสอบ]
+  Cell[4,0]: TC-04
+  Cell[4,1]: 9 หลักผ่านตาม regex ปัจจุบัน
+  Cell[4,2]: FAIL
+  Cell[4,3]: [แทรก Screenshot Bug Spoiler/ผลการทดสอบ]
+
+Table 14 (4x2):
+  Cell[0,0]: คำถาม
+  Cell[0,1]: คำตอบ
+  Cell[1,0]: Expected กับ Actual ต่างกันตรงไหน?
+  Cell[1,1]: Expected อิง requirement 10 หลัก แต่ Actual ใช้เกณฑ์ 9 หลัก จึงกลับด้านทั้งกรณี 9 และ 10 หลัก
+  Cell[2,0]: มีหลักฐานอะไรยืนยัน?
+  Cell[2,1]: Bug Spoiler ระบุ validatePhone(), regex /^0[0-9]{8}$/ และพฤติกรรมของเบอร์ 9/10 หลัก
+  Cell[3,0]: คิดว่าเป็น Defect/Bug หรือไม่? เพราะอะไร?
+  Cell[3,1]: เป็น Bug เพราะพฤติกรรมจริงไม่ตรง requirement และปฏิเสธเบอร์มาตรฐานไทย
+
+Table 15 (9x2):
+  Cell[0,0]: หัวข้อ
+  Cell[0,1]: รายละเอียด
+  Cell[1,0]: Bug ID
+  Cell[1,1]: BUG-01
+  Cell[2,0]: Bug Title
+  Cell[2,1]: validatePhone ตรวจจำนวนหลักผิด
+  Cell[3,0]: Test Case
+  Cell[3,1]: TC-01 และ TC-02
+  Cell[4,0]: Steps to Reproduce
+  Cell[4,1]: 1) เปิดเว็บไซต์ 2) กรอกเบอร์ 9 หรือ 10 หลักพร้อมข้อมูลหลัก 3) ตรวจ validation
+  Cell[5,0]: Expected Result
+  Cell[5,1]: 10 หลักผ่าน; 9 หลักไม่ผ่าน
+  Cell[6,0]: Actual Result
+  Cell[6,1]: 9 หลักผ่าน; 10 หลักถูกปฏิเสธ เพราะ /^0[0-9]{8}$/
+  Cell[7,0]: Severity / Impact
+  Cell[7,1]: ปานกลาง: ผู้สมัครที่กรอกเบอร์ถูกต้องอาจสมัครไม่ได้ และข้อมูลผิดรูปแบบอาจผ่าน
+  Cell[8,0]: Evidence
+  Cell[8,1]: [แทรก Screenshot Bug Spoiler และ URL https://thaweechai456.github.io/Bug_test/]
+
+Table 16 (6x3):
+  Cell[0,0]: รายการ
+  Cell[0,1]: ผลการ Re-test
+  Cell[0,2]: ผลการ Re-test
+  Cell[1,0]: ใช้ Test Data เดิมหรือไม่?
+  Cell[1,1]: ยังไม่มี build หลังแก้ไข; เมื่อแก้แล้วใช้กรณีไม่ติ๊ก Terms เดิม
+  Cell[1,2]: ยังไม่มี build หลังแก้ไข; เมื่อแก้แล้วใช้กรณีไม่ติ๊ก Terms เดิม
+  Cell[2,0]: Actual Result หลังแก้
+  Cell[2,1]: รอผล Re-test
+  Cell[2,2]: รอผล Re-test
+  Cell[3,0]: ผลสุดท้าย
+  Cell[3,1]: รอ Re-test
+  Cell[3,2]: รอ Re-test
+  Cell[4,0]: หลักฐาน
+  Cell[4,1]: [แทรก Screenshot หลังแก้ BUG-02]
+  Cell[4,2]: [แทรก Screenshot หลังแก้ BUG-02]
+  Cell[5,0]: เชื่อมโยงกับงานก่อนหน้า || ก่อนหน้านี้คุณทดสอบจาก “Input  ->  Expected  ->  Actual”
+วันนี้คุณเพิ่มมุมมองใหม่คือ “ตัวแปร  ->  Def  ->  Use  ->  Path  ->  Test Case”
+ดังนั้น Test Case ไม่ได้เกิดจากการเดาสุ่ม แต่สามารถสร้างจากโครงสร้างของโปรแกรมได้
+  Cell[5,1]: เชื่อมโยงกับงานก่อนหน้า || ก่อนหน้านี้คุณทดสอบจาก “Input  ->  Expected  ->  Actual”
+วันนี้คุณเพิ่มมุมมองใหม่คือ “ตัวแปร  ->  Def  ->  Use  ->  Path  ->  Test Case”
+ดังนั้น Test Case ไม่ได้เกิดจากการเดาสุ่ม แต่สามารถสร้างจากโครงสร้างของโปรแกรมได้
+
+Table 17 (11x4):
+  Cell[0,0]: คำสั่งสำคัญ || ไฟล์ Chap6-Structural Test_DFT.pdf หน้า 20–24 มีตัวอย่าง Case Study ให้เปิดตามคำสั่งของอาจารย์หลังจากทำ Mission 1–3 แล้ว เป้าหมายคือ “เปรียบเทียบกระบวนการคิด” ไม่ใช่คัดลอกคำตอบ
+  Cell[0,1]: คำสั่งสำคัญ || ไฟล์ Chap6-Structural Test_DFT.pdf หน้า 20–24 มีตัวอย่าง Case Study ให้เปิดตามคำสั่งของอาจารย์หลังจากทำ Mission 1–3 แล้ว เป้าหมายคือ “เปรียบเทียบกระบวนการคิด” ไม่ใช่คัดลอกคำตอบ
+  Cell[0,2]: คำสั่งสำคัญ || ไฟล์ Chap6-Structural Test_DFT.pdf หน้า 20–24 มีตัวอย่าง Case Study ให้เปิดตามคำสั่งของอาจารย์หลังจากทำ Mission 1–3 แล้ว เป้าหมายคือ “เปรียบเทียบกระบวนการคิด” ไม่ใช่คัดลอกคำตอบ
+  Cell[1,0]: หน้าของไฟล์
+  Cell[1,1]: หน้าที่ของหน้า
+  Cell[1,2]: สิ่งที่นักศึกษาควรสังเกต
+  Cell[1,3]: สิ่งที่นักศึกษาควรสังเกต
+  Cell[2,0]: 3–4
+  Cell[2,1]: แนวคิด Data Flow Testing
+  Cell[2,2]: DFT สนใจการไหล/การใช้งานของข้อมูลในโปรแกรม
+  Cell[2,3]: DFT สนใจการไหล/การใช้งานของข้อมูลในโปรแกรม
+  Cell[3,0]: 6–7
+  Cell[3,1]: Define / Use
+  Cell[3,2]: จุดใดเป็นการกำหนดค่า และจุดใดเป็นการใช้ค่า
+  Cell[3,3]: จุดใดเป็นการกำหนดค่า และจุดใดเป็นการใช้ค่า
+  Cell[4,0]: 8
+  Cell[4,1]: Def-Use Pair / Def-Clear Path
+  Cell[4,2]: การเชื่อมจาก Def ไป Use โดยไม่ถูกกำหนดค่าใหม่ระหว่างทาง
+  Cell[4,3]: การเชื่อมจาก Def ไป Use โดยไม่ถูกกำหนดค่าใหม่ระหว่างทาง
+  Cell[5,0]: 11–12
+  Cell[5,1]: P-use / C-use และตัวอย่าง Path
+  Cell[5,2]: การใช้ตัวแปรในเงื่อนไขและการคำนวณ/ประมวลผล
+  Cell[5,3]: การใช้ตัวแปรในเงื่อนไขและการคำนวณ/ประมวลผล
+  Cell[6,0]: 13
+  Cell[6,1]: กระบวนการ 3 ขั้น
+  Cell[6,2]: DFG  ->  Paths  ->  Test Cases
+  Cell[6,3]: DFG  ->  Paths  ->  Test Cases
+  Cell[7,0]: 14–15
+  Cell[7,1]: Data Flow Graph
+  Cell[7,2]: เปลี่ยนโค้ดเป็นโครงสร้างการไหลของข้อมูล
+  Cell[7,3]: เปลี่ยนโค้ดเป็นโครงสร้างการไหลของข้อมูล
+  Cell[8,0]: 16–17
+  Cell[8,1]: การสร้าง Path
+  Cell[8,2]: สร้าง Path ตามความสัมพันธ์ Def-Use
+  Cell[8,3]: สร้าง Path ตามความสัมพันธ์ Def-Use
+  Cell[9,0]: 18–19
+  Cell[9,1]: การสร้าง Test Cases
+  Cell[9,2]: นำ Path ไปสร้างข้อมูลทดสอบและ Expected Result
+  Cell[9,3]: นำ Path ไปสร้างข้อมูลทดสอบและ Expected Result
+  Cell[10,0]: 20–24
+  Cell[10,1]: Case Study
+  Cell[10,2]: ดูการเชื่อมโยง Def/Use  ->  Path  ->  Test Cases ในตัวอย่าง
+  Cell[10,3]: ดูการเชื่อมโยง Def/Use  ->  Path  ->  Test Cases ในตัวอย่าง
+
+Table 18 (7x3):
+  Cell[0,0]: ประเด็น
+  Cell[0,1]: Case Study ในไฟล์
+  Cell[0,2]: งานของฉัน
+  Cell[1,0]: ตัวแปรที่ติดตาม
+  Cell[1,1]: ตัวแปรตัวอย่างจาก Case Study
+  Cell[1,2]: phone จาก input#phone
+  Cell[2,0]: Def
+  Cell[2,1]: จุดกำหนดค่าใน Case Study
+  Cell[2,2]: input#phone รับค่าจากผู้ใช้
+  Cell[3,0]: Use
+  Cell[3,1]: จุดตรวจ/ประมวลผลใน Case Study
+  Cell[3,2]: validatePhone() ใช้ phone ใน regex และ branch
+  Cell[4,0]: Def-Use Pair
+  Cell[4,1]: คู่ Def-Use ใน Case Study
+  Cell[4,2]: D1 input#phone -> U1 validatePhone
+  Cell[5,0]: Path
+  Cell[5,1]: เส้นทางตาม Case Study
+  Cell[5,2]: D1 -> U1 -> true/false -> submit/error
+  Cell[6,0]: Test Case
+  Cell[6,1]: ข้อมูลทดสอบจาก Path
+  Cell[6,2]: TC-01 ถึง TC-04 ครอบคลุม 9/10 หลักและรูปแบบผิด
+
+Table 19 (1x1):
+  Cell[0,0]: สิ่งที่ควรจำ || “อย่าเริ่มจากการสุ่ม Test Case อย่างเดียว
+ให้เริ่มจากการถามว่า ข้อมูลถูกกำหนดที่ไหน  ->  ถูกใช้ที่ไหน  ->  เดินทางผ่าน Path ไหน  ->  แล้วจึงสร้าง Test Case”

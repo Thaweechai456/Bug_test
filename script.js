@@ -31,7 +31,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalSummary = document.getElementById('modalSummary');
 
     // ----------------------------------------------------------------
-    // 0. จัดการชื่อและรหัสนักศึกษา (Student Profile)
+    // 0. ระบบสลับโหมด: โหมดแก้แล้ว (No Bug) vs โหมดจำลองบัคเดิม (Bug Mode)
+    // ----------------------------------------------------------------
+    let isBugMode = false; // ค่าเริ่มต้น: โหมดแก้ไขบัคแล้ว (Bug Free)
+
+    const btnModeFixed = document.getElementById('btnModeFixed');
+    const btnModeBug = document.getElementById('btnModeBug');
+    const modeBadge = document.getElementById('modeBadge');
+    const modeTitle = document.getElementById('modeTitle');
+    const modeDescription = document.getElementById('modeDescription');
+    const modeSwitchCard = document.getElementById('modeSwitchCard');
+
+    function updateModeUI(bugActive) {
+        isBugMode = bugActive;
+        inputIds.forEach(id => clearError(id)); // ล้าง error เก่าเมื่อสลับโหมด
+
+        if (isBugMode) {
+            btnModeBug.classList.add('active');
+            btnModeFixed.classList.remove('active');
+            modeSwitchCard.classList.add('bug-active');
+            modeBadge.className = 'mode-badge badge-bug';
+            modeBadge.textContent = '🐛 BUG MODE (จำลองบัค)';
+            modeTitle.textContent = 'โหมดปัจจุบัน: จำลองบัคเดิมสำหรับทดสอบ (Bug Mode)';
+            modeDescription.textContent = '⚠️ เบอร์ 10 หลักจะ Error (รับแค่ 9 หลัก) และไม่ติ๊ก Terms ก็ยังกดส่งได้';
+        } else {
+            btnModeFixed.classList.add('active');
+            btnModeBug.classList.remove('active');
+            modeSwitchCard.classList.remove('bug-active');
+            modeBadge.className = 'mode-badge badge-fixed';
+            modeBadge.textContent = '✨ FIXED (สมบูรณ์)';
+            modeTitle.textContent = 'โหมดปัจจุบัน: แก้ไขบัคแล้ว (Bug-Free Version)';
+            modeDescription.textContent = '✅ ระบบรองรับเบอร์ 10 หลักถูกต้อง และบังคับติ๊กยอมรับเงื่อนไขก่อนส่ง';
+        }
+    }
+
+    if (btnModeFixed && btnModeBug) {
+        btnModeFixed.addEventListener('click', () => updateModeUI(false));
+        btnModeBug.addEventListener('click', () => updateModeUI(true));
+    }
+
+    // ----------------------------------------------------------------
+    // 0.1 จัดการชื่อและรหัสนักศึกษา (Student Profile)
     // ----------------------------------------------------------------
     const savedStudent = localStorage.getItem('student_info');
     if (savedStudent) {
@@ -163,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
 
-    // 3.3 ตรวจสอบเบอร์โทรศัพท์ (⚠️ จุดซ่อน BUG ที่ 1)
+    // 3.3 ตรวจสอบเบอร์โทรศัพท์ (รองรับทั้งโหมด Fixed และโหมดจำลอง Bug)
     function validatePhone() {
         const value = document.getElementById('phone').value.trim();
         if (!value) {
@@ -171,20 +211,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         }
 
-        /* 
-         * ==========================================================
-         * 🐛 BUG 1 อยู่ตรงนี้ (INTENTIONAL BUG #1):
-         * ----------------------------------------------------------
-         * เบอร์โทรไทยมาตรฐานต้องมี 10 หลัก (^0[0-9]{9}$)
-         * แต่โค้ดด้านล่างตรวจสอบเป็น 9 หลัก (^0[0-9]{8}$) แทน
-         * ทำให้กรอกเบอร์ 10 หลักปกติแล้วขึ้น Error แต่กรอก 9 หลักดันผ่าน
-         * ==========================================================
-         */
-        const phoneRegexWithBug = /^0[0-9]{8}$/; // Bug: ตรวจสอบความยาวแค่ 9 หลัก
-
-        if (!phoneRegexWithBug.test(value)) {
-            setError('phone', 'เบอร์โทรศัพท์ต้องขึ้นต้นด้วย 0 และประกอบด้วยตัวเลข 10 หลัก');
-            return false;
+        if (isBugMode) {
+            // 🐛 โหมดจำลองบัคเดิม: ตรวจสอบแค่ 9 หลัก (^0[0-9]{8}$)
+            const phoneRegexBug = /^0[0-9]{8}$/;
+            if (!phoneRegexBug.test(value)) {
+                setError('phone', 'เบอร์โทรศัพท์ต้องขึ้นต้นด้วย 0 และประกอบด้วยตัวเลข 10 หลัก (จำลอง Bug: โค้ดรับแค่ 9 หลัก)');
+                return false;
+            }
+        } else {
+            // ✅ โหมดแก้ไขแล้ว: ตรวจสอบ 10 หลัก (^0[0-9]{9}$) ถูกต้องตามมาตรฐานไทย
+            const phoneRegexFixed = /^0[0-9]{9}$/;
+            if (!phoneRegexFixed.test(value)) {
+                setError('phone', 'เบอร์โทรศัพท์ต้องขึ้นต้นด้วย 0 และประกอบด้วยตัวเลข 10 หลัก (เช่น 0812345678)');
+                return false;
+            }
         }
 
         clearError('phone');
@@ -269,28 +309,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return true;
     }
 
-    // 3.9 ตรวจสอบข้อตกลงและเงื่อนไข (⚠️ จุดซ่อน BUG ที่ 2)
+    // 3.9 ตรวจสอบข้อตกลงและเงื่อนไข (รองรับทั้งโหมด Fixed และโหมดจำลอง Bug)
     function validateTerms() {
         const termsCheckbox = document.getElementById('terms');
         
-        /* 
-         * ==========================================================
-         * 🐛 BUG 2 อยู่ตรงนี้ (INTENTIONAL BUG #2):
-         * ----------------------------------------------------------
-         * ฟอร์มมี * สีแดงระบุว่าต้องยอมรับเงื่อนไขก่อนส่ง
-         * แต่โค้ดด้านล่างจงใจละเลยการตรวจ !termsCheckbox.checked
-         * และ return true ตลอดเวลา ทำให้ไม่ได้ติ๊กถูกก็กดส่งฟอร์มผ่านได้
-         * ==========================================================
-         */
-        const isBypassValidation = true; // Bug: อนุญาตให้ผ่านเสมอโดยไม่เช็ค checkbox
-
-        if (!isBypassValidation && !termsCheckbox.checked) {
-            setError('terms', 'คุณต้องยอมรับข้อกำหนดและเงื่อนไขก่อนลงทะเบียน');
-            return false;
+        if (isBugMode) {
+            // 🐛 โหมดจำลองบัคเดิม: Bypass การตรวจสอบเงื่อนไข (ไม่ติ๊กก็ผ่าน)
+            clearError('terms');
+            return true;
+        } else {
+            // ✅ โหมดแก้ไขแล้ว: บังคับต้องติ๊กยอมรับเงื่อนไข
+            if (!termsCheckbox.checked) {
+                setError('terms', 'คุณต้องยอมรับข้อกำหนดและเงื่อนไขก่อนลงทะเบียน');
+                return false;
+            }
+            clearError('terms');
+            return true;
         }
-
-        clearError('terms');
-        return true;
     }
 
     // ----------------------------------------------------------------

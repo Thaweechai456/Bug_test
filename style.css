@@ -805,3 +805,129 @@ textarea {
         gap: 0.4rem;
     }
 }
+
+/* ==========================================================================
+   Mode Switcher Card Styling (สลับโหมด มีบัค / แก้ไขแล้ว)
+   ========================================================================== */
+.mode-switch-container {
+    width: 100%;
+    margin-bottom: 1.25rem;
+}
+
+.mode-switch-card {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1.5px solid #e0f2fe;
+    border-radius: var(--radius-lg);
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 16px rgba(2, 132, 199, 0.08);
+    transition: var(--transition);
+}
+
+.mode-switch-card.bug-active {
+    border-color: #fed7aa;
+    background: rgba(255, 251, 235, 0.95);
+    box-shadow: 0 4px 16px rgba(234, 88, 12, 0.12);
+}
+
+.mode-info {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.mode-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+
+.badge-fixed {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
+.badge-bug {
+    background: #ffedd5;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+}
+
+.mode-text-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.mode-text-group strong {
+    font-size: 0.95rem;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.mode-desc {
+    font-size: 0.82rem;
+    color: #64748b;
+}
+
+.mode-toggle-group {
+    display: flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 30px;
+    gap: 4px;
+}
+
+.mode-toggle-btn {
+    border: none;
+    background: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 24px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.mode-toggle-btn:hover {
+    color: #0f172a;
+}
+
+.mode-toggle-btn.active {
+    background: white;
+    color: #0284c7;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.mode-switch-card.bug-active .mode-toggle-btn.active {
+    color: #ea580c;
+}
+
+@media (max-width: 768px) {
+    .mode-switch-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.85rem;
+    }
+    
+    .mode-toggle-group {
+        width: 100%;
+    }
+    
+    .mode-toggle-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+

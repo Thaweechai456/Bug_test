@@ -28,6 +28,27 @@
             </div>
         </header>
 
+        <!-- Mode Switcher (สลับโหมด มีบัค / แก้ไขแล้ว สำหรับนำเสนออาจารย์) -->
+        <section class="mode-switch-container">
+            <div class="mode-switch-card" id="modeSwitchCard">
+                <div class="mode-info">
+                    <span class="mode-badge badge-fixed" id="modeBadge">✨ FIXED (สมบูรณ์)</span>
+                    <div class="mode-text-group">
+                        <strong id="modeTitle">โหมดปัจจุบัน: แก้ไขบัคแล้ว (No Bugs)</strong>
+                        <span class="mode-desc" id="modeDescription">ระบบรองรับเบอร์ 10 หลัก และบังคับติ๊กยอมรับเงื่อนไข</span>
+                    </div>
+                </div>
+                <div class="mode-toggle-group">
+                    <button type="button" class="mode-toggle-btn active" id="btnModeFixed">
+                        <span>✨ โหมดแก้แล้ว (ปกติ)</span>
+                    </button>
+                    <button type="button" class="mode-toggle-btn" id="btnModeBug">
+                        <span>🐛 โหมดจำลองบัค</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
         <!-- Main Form Card -->
         <main class="form-wrapper">
             <div class="form-header">
